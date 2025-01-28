@@ -10,26 +10,34 @@ public class RollingAverage {
 
     /**
      * Метод для вывода подмассива
+     *
      * @param array - массив данных
-     * @param k - размер подмассива
+     * @param k     - размер подмассива
      */
     public static void getRollingAverage(ArrayList<Integer> array, int k) {
         Queue<Double> queue = new LinkedList(); // создаем очередь
 
-        for (Integer value : array) { //заполняем очередь данными из массива приводя их к типу Double
-            queue.add(value.doubleValue());
+        for (int i = 0; i < k; i++) {
+            double value = array.get(i).doubleValue();
+            queue.add(value);
+            sum += value;
         }
 
-        for (int i = 0; i <= queue.size(); i++) { //в цикле достаём и удаляем первый элемент сумируя со вторым не удаляя второй
-            if (!queue.isEmpty()) {
-                double removed = queue.remove();
-                double nextElement = queue.peek();
-                sum = (removed + nextElement) / k;
-                System.out.println(sum);
-            }
+        System.out.println(sum / k);
+
+
+        for (int i = k; i < array.size(); i++) { //в цикле достаём и удаляем первый элемент сумируя со вторым не удаляя второй
+            double old = queue.remove();
+            sum -= old;
+
+            double newelement = array.get(i).doubleValue();
+            queue.add(newelement);
+            sum += newelement;
+            System.out.println(sum / k);
         }
     }
 }
+
 
 
 
